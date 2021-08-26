@@ -1,94 +1,104 @@
-# import library
+ 
+# importing  library
 from tkinter import *
 
 # initialize window
-root = Tk()
-root.geometry('400x400')
-root.config(bg='SlateGray3')
-root.title('Sangam-AddressBook')
-root.resizable(0, 0)
-contactlist = [
-    ['sangam', '735****952'],
-    ['rajeev kumar', '916****241']
-]
 
+phonebook = Tk()
+phonebook.geometry('600x400')
+phonebook.config(bg='SlateGray3')
+phonebook.title('Sangam - AddressBook')
+phonebook.resizable(1, 1)
+
+
+contact_list = [
+    ['Sangam', '735****952'],
+    ['Rajeev kumar', '916****241']
+]
 Name = StringVar()
 Number = StringVar()
 
 # create frame
-frame = Frame(root)
+frame = Frame(phonebook)
 frame.pack(side=RIGHT)
 
 scroll = Scrollbar(frame, orient=VERTICAL)
-select = Listbox(frame, yscrollcommand=scroll.set, height=12)
+select = Listbox(frame, yscrollcommand=scroll.set, height=15)
 scroll.config(command=select.yview)
 scroll.pack(side=RIGHT, fill=Y)
 select.pack(side=LEFT, fill=BOTH, expand=1)
 
 
-########### function to get select value
+#     function to get select value
 
-def Selected():
+def selected():
     return int(select.curselection()[0])
 
 
-##fun to add new contact
-def AddContact():
-    contactlist.append([Name.get(), Number.get()])
-    Select_set()
+#   function to add new contact
+def add_contact():
+    contact_list.append([Name.get(), Number.get()])
+    select_set()
 
 
-# fun to edit existing contact(first select the contact then click on view button then edit the contact and then click on edit button)
-def EDIT():
-    contactlist[Selected()] = [Name.get(), Number.get()]
-    Select_set()
+#        function to edit existing contact
+#        first select the contact then click on view button
+#        then edit the contact and then click on edit button
+
+def edit():
+    contact_list[selected()] = [Name.get(), Number.get()]
+    select_set()
 
 
-# to delete selected contact
-def DELETE():
-    del contactlist[Selected()]
-    Select_set()
+#      function to delete selected contact
+def delete():
+    del contact_list[selected()]
+    select_set()
 
 
-# to view selected contact(first select then click on view button)
-def VIEW():
-    NAME, PHONE = contactlist[Selected()]
-    Name.set(NAME)
-    Number.set(PHONE)
+#   to view selected contact
+#   first select then click on view button
+def view():
+    name, phone = contact_list[selected()]
+    Name.set(name)
+    Number.set(phone)
 
 
-###exit game window
-def EXIT():
-    root.destroy()
+#     exit the phonebook window
+def exit_():
+    phonebook.destroy()
 
 
 # empty name and number field
-def RESET():
+def reset():
     Name.set('')
     Number.set('')
 
 
-def Select_set():
-    contactlist.sort()
+def select_set():
+    contact_list.sort()
     select.delete(0, END)
-    for name, phone in contactlist:
+    for name, phone in contact_list:
         select.insert(END, name)
 
 
-Select_set()
+select_set()
 
-######define buttons #####labels and entry widget
-Label(root, text='NAME', font='arial 12 bold', bg='SlateGray3').place(x=30, y=20)
-Entry(root, textvariable=Name).place(x=100, y=20)
-Label(root, text='PHONE NO.', font='arial 12 bold', bg='SlateGray3').place(x=30, y=70)
-Entry(root, textvariable=Number).place(x=130, y=70)
+#   define buttons
+#   labels and entry widget
 
-Button(root, text=" ADD", font='arial 12 bold', bg='SlateGray4', command=AddContact).place(x=50, y=110)
-Button(root, text="EDIT", font='arial 12 bold', bg='SlateGray4', command=EDIT).place(x=50, y=260)
-Button(root, text="DELETE", font='arial 12 bold', bg='SlateGray4', command=DELETE).place(x=50, y=210)
-Button(root, text="VIEW", font='arial 12 bold', bg='SlateGray4', command=VIEW).place(x=50, y=160)
-Button(root, text="EXIT", font='arial 12 bold', bg='tomato', command=EXIT).place(x=300, y=320)
-Button(root, text="RESET", font='arial 12 bold', bg='SlateGray4', command=RESET).place(x=50, y=310)
+Label(phonebook, text='NAME', font='arial 12 bold', bg='SlateGray3').place(x=30, y=20)
+Entry(phonebook, textvariable=Name).place(x=100, y=20)
+Label(phonebook, text='PHONE NO.', font='arial 12 bold', bg='SlateGray3').place(x=30, y=70)
+Entry(phonebook, textvariable=Number).place(x=130, y=70)
 
-root.mainloop()
 
+Button(phonebook, text=" ADD", font='arial 12 bold', bg='SlateGray4', command=add_contact).place(x=50, y=110)
+Button(phonebook, text="EDIT", font='arial 12 bold', bg='SlateGray4', command=edit).place(x=50, y=260)
+Button(phonebook, text="DELETE", font='arial 12 bold', bg='SlateGray4', command=delete).place(x=50, y=210)
+Button(phonebook, text="VIEW", font='arial 12 bold', bg='SlateGray4', command=view).place(x=50, y=160)
+Button(phonebook, text="EXIT", font='arial 12 bold', bg='tomato', command=exit_).place(x=300, y=320)
+Button(phonebook, text="RESET", font='arial 12 bold', bg='SlateGray4', command=reset).place(x=50, y=310)
+
+phonebook.mainloop()
+print("Phonebook interface destroyed")
